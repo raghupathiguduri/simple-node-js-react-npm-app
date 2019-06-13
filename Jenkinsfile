@@ -36,12 +36,14 @@ spec:
     stages {
         stage('Build') {
             steps {
-                sh 'gcloud builds submit -t test:v1 '
+              container('gcloud') {
+	        sh 'gcloud builds submit -t test:v1 '
             }
         }
         stage('Deliver') { 
             steps {
-                sh 'kubectl apply --image=test:v1 --replicas=2'
+              container('kubectl') {
+	        sh 'kubectl apply --image=test:v1 --replicas=2'
             }
         }
     }
